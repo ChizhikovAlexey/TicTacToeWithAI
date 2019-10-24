@@ -5,12 +5,12 @@ import java.util.Date;
 final class Field {
     private char[][] field = new char[3][3];
     private int stepNum = 0;
-    private Player playerX;
-    private Player playerO;
+    private Player.type playerX;
+    private Player.type playerO;
     private Scanner scanner = new Scanner(System.in);
     private Random random = new Random((new Date()).getTime());
 
-    Field(Player p1, Player p2) {
+    Field(Player.type p1, Player.type p2) {
         playerX = p1;
         playerO = p2;
         for (int i = 0; i < 3; i++) {
@@ -18,6 +18,16 @@ final class Field {
                 field[i][j] = '_';
             }
         }
+        game();
+    }
+
+    private void game() {
+        writeField();
+        while (checkField().equals("Game not finished")) {
+            nextStep();
+            writeField();
+        }
+        System.out.println(checkField());
     }
 
     void readField() {
@@ -29,7 +39,7 @@ final class Field {
         }
     }
 
-    String checkField() {
+    private String checkField() {
         int numberOfX = 0;
         int numberOfO = 0;
         boolean xWins = false;
@@ -86,7 +96,7 @@ final class Field {
         return result;
     }
 
-    void writeField() {
+    private void writeField() {
         System.out.println("---------");
         for (int i = 0; i < 3; i++) {
             System.out.print("| ");
@@ -131,13 +141,13 @@ final class Field {
         }
     }
 
-    void nextStep() {
+    private void nextStep() {
         switch (stepNum % 2 == 0 ? playerX : playerO) {
-            case easyAI:
+            case easy:
                 System.out.println("Making move level \"easy\"");
                 easyAIStep();
                 break;
-            case human:
+            case user:
                 System.out.print("Enter the coordinates: ");
                 humanStep();
                 break;
