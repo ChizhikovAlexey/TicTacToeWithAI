@@ -141,6 +141,30 @@ final class Field {
         }
     }
 
+    private void mediumAIStep() {
+        char currentSym = stepNum % 2 == 0 ? 'X' : 'O';
+        boolean stepIsNotMade = true;
+        for (int i = 0; i < 3 && stepIsNotMade; i++){
+            for (int j = i; j < 3 && stepIsNotMade; j++) {
+                if (field[i][j] == currentSym){
+                    stepIsNotMade = false;
+                    if (field[i][(j + 1) % 3] == currentSym && field[i][(j + 2) % 3] =='_') {
+                        field[i][(j + 2) % 3] = currentSym;
+                    } else if (field[(i + 1) % 3][j] == currentSym && field[(i + 2) % 3][j] == '_') {
+                        field[(i + 2) % 3][j] = currentSym;
+                    } else if (i == j && field[(i + 1) % 3][(j + 1) % 3] == currentSym && field[(i + 2) % 3][(j + 2) % 3] == '_') {
+                        field[(i + 2) % 3][(j + 2) % 3] = currentSym;
+                    } else {
+                        stepIsNotMade = true;
+                    }
+                }
+            }
+        }
+        if (stepIsNotMade) {
+            easyAIStep();
+        }
+    }
+
     private void nextStep() {
         switch (stepNum % 2 == 0 ? playerX : playerO) {
             case easy:
@@ -150,6 +174,10 @@ final class Field {
             case user:
                 System.out.print("Enter the coordinates: ");
                 humanStep();
+                break;
+            case medium:
+                System.out.println("Making move level \"medium\"");
+                mediumAIStep();
                 break;
             default:
                 break;
