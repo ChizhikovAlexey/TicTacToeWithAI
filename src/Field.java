@@ -2,15 +2,13 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.Date;
 
-import static java.lang.System.*;
-
 final class Field {
     private char[][] field = new char[3][3];
     private int stepNum = 0;
     private Player.type playerX;
     private boolean isXStep;
     private Player.type playerO;
-    private Scanner scanner = new Scanner(in);
+    private Scanner scanner = new Scanner(System.in);
     private Random random = new Random((new Date()).getTime());
 
     Field(Player.type p1, Player.type p2) {
@@ -28,7 +26,7 @@ final class Field {
     char[][] copyField (char[][] srcField) {
         char[][] result = new char[3][3];
         for (int i = 0; i < 3; i++) {
-            arraycopy(srcField[i], 0, result[i], 0, 3);
+            System.arraycopy(srcField[i], 0, result[i], 0, 3);
         }
         return result;
     }
@@ -40,7 +38,7 @@ final class Field {
             writeField();
             isXStep = !isXStep;
         }
-        out.println(checkField());
+        System.out.println(checkField());
     }
 
     void readField() {
@@ -87,8 +85,8 @@ final class Field {
                         break;
 
                     default:
-                        out.println("ERROR: wrong symbol!");
-                        exit(1);
+                        System.out.println("ERROR: wrong symbol!");
+                        System.exit(1);
                         break;
                 }
             }
@@ -144,8 +142,8 @@ final class Field {
                         break;
 
                     default:
-                        out.println("ERROR: wrong symbol!");
-                        exit(1);
+                        System.out.println("ERROR: wrong symbol!");
+                        System.exit(1);
                         break;
                 }
             }
@@ -167,42 +165,42 @@ final class Field {
     }
 
     private void writeField() {
-        out.println("---------");
+        System.out.println("---------");
         for (int i = 0; i < 3; i++) {
-            out.print("| ");
+            System.out.print("| ");
             for (int j = 0; j < 3; j++) {
-                out.print(field[i][j] + " ");
+                System.out.print(field[i][j] + " ");
             }
-            out.println("|");
+            System.out.println("|");
         }
-        out.println("---------");
+        System.out.println("---------");
     }
 
     private void writeField(char[][] curField) {
-        out.println("---------");
+        System.out.println("---------");
         for (int i = 0; i < 3; i++) {
-            out.print("| ");
+            System.out.print("| ");
             for (int j = 0; j < 3; j++) {
-                out.print(curField[i][j] + " ");
+                System.out.print(curField[i][j] + " ");
             }
-            out.println("|");
+            System.out.println("|");
         }
-        out.println("---------");
+        System.out.println("---------");
     }
 
     private void humanStep() {
         while (!scanner.hasNextInt()) {
-            out.println("You should enter numbers!");
+            System.out.println("You should enter numbers!");
             scanner.next();
         }
         int y = scanner.nextInt() - 1;
         int x = (3 - scanner.nextInt());
 
         if (x > 2 || x < 0 || y > 2 || y < 0) {
-            out.println("Coordinates should be from 1 to 3!");
+            System.out.println("Coordinates should be from 1 to 3!");
             humanStep();
         } else if (field[x][y] != ' ') {
-            out.println("This cell is occupied! Choose another one!");
+            System.out.println("This cell is occupied! Choose another one!");
             humanStep();
         } else {
             field[x][y] = stepNum % 2 == 0 ? 'X' : 'O';
@@ -347,19 +345,19 @@ final class Field {
     private void nextStep() {
         switch (stepNum % 2 == 0 ? playerX : playerO) {
             case easy:
-                out.println("Making move level \"easy\"");
+                System.out.println("Making move level \"easy\"");
                 easyAIStep();
                 break;
             case user:
-                out.print("Enter the coordinates: ");
+                System.out.print("Enter the coordinates: ");
                 humanStep();
                 break;
             case medium:
-                out.println("Making move level \"medium\"");
+                System.out.println("Making move level \"medium\"");
                 mediumAIStep();
                 break;
             case hard:
-                out.println("Making move level \"hard\"");
+                System.out.println("Making move level \"hard\"");
                 hardAIStep();
                 break;
             default:
